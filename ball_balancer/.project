@@ -29,4 +29,11 @@
 		<nature>org.eclipse.cdt.managedbuilder.core.managedBuildNature</nature>
 		<nature>org.eclipse.cdt.managedbuilder.core.ScannerConfigNature</nature>
 	</natures>
+	<linkedResources>
+		<link>
+			<name>en.x-cube-spn3</name>
+			<type>2</type>
+			<location>C:/Users/lucas/Downloads/en.x-cube-spn3</location>
+		</link>
+	</linkedResources>
 </projectDescription>
