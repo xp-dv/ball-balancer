@@ -10,21 +10,24 @@
 #define KI 1E-7
 #define KD 4E-3
 #define KS 15
+// Misc
 #define HOME_HEIGHT 4.25
+#define BAUD_RATE 115200
 
-// Pin Assignments
+// Pin Assignment
 enum pins {
-  ENABLE_PIN = 2, // TMC2208 Enable (EN) Pin
-  STEP_PIN_A = 3, // Step-Signal Input A
-  DIR_PIN_A = 4,  // Direction-Signal Input A
-  STEP_PIN_2 = 5, // Step-Signal Input 2
-  DIR_PIN_2 = 6,  // Direction-Signal Input 2
-  STEP_PIN_3 = 7, // Step-Signal Input 3
-  DIR_PIN_3 = 8,  // Direction-Signal Input 3
-  Y_PLUS_PIN = A0,
-  X_PLUS_PIN = A1,
-  Y_MINUS_PIN = A2,
-  X_MINUS_PIN = A3,
+  // TMC2208 Stepper Motor Drivers
+  ENABLE_PIN = 2, // Enable (EN) Pin
+  STEP_PIN_A = 3, // Stepper A Step Signal (STEP)
+  DIR_PIN_A  = 4, // Stepper A Direction Signal (DIR)
+  STEP_PIN_B = 5, // Stepper B Step Signal (STEP)
+  DIR_PIN_B  = 6, // Stepper B Direction Signal (DIR)
+  STEP_PIN_C = 7, // Stepper C Step Signal (STEP)
+  DIR_PIN_C  = 8,  // Stepper C Direction Signal (DIR)
+  Y_PLUS_PIN  = A0, // Resistive Touch Screen
+  X_PLUS_PIN  = A1, // Resistive Touch Screen
+  Y_MINUS_PIN = A2, // Resistive Touch Screen
+  X_MINUS_PIN = A3, // Resistive Touch Screen
 };
 
 //* Private Definitions
@@ -89,14 +92,18 @@ double inv_kinematics::theta(int leg, double h_z, double n_x, double n_y) {
 
 // Create inverse kinematics instance
 inv_kinematics inv_kinematics(2, 3.125, 1.75, 3.669291339);
+
 // Create touch screen instance
 TouchScreen ts = TouchScreen(X_PLUS_PIN, Y_PLUS_PIN, X_MINUS_PIN, Y_MINUS_PIN, 0);
+
 // Create stepper motor instances
-const int DRIVER_TYPE = 1;
-AccelStepper stepperA(DRIVER_TYPE, STEP_PIN_A, DIR_PIN_A);  // (driver type, STEP_PIN, DIR_PIN)
-AccelStepper stepperB(DRIVER_TYPE, STEP_PIN_2, DIR_PIN_2);  // (driver type, STEP_PIN, DIR_PIN)
-AccelStepper stepperC(DRIVER_TYPE, STEP_PIN_3, DIR_PIN_3);  // (driver type, STEP_PIN, DIR_PIN)
-// Create MultiStepper instance
+const int DRIVER_TYPE = 1; // Normal
+// AccelStepper stepper_name(DRIVER_TYPE, STEP_PIN, DIR_PIN);
+AccelStepper stepperA(DRIVER_TYPE, STEP_PIN_A, DIR_PIN_A);
+AccelStepper stepperB(DRIVER_TYPE, STEP_PIN_B, DIR_PIN_B);
+AccelStepper stepperC(DRIVER_TYPE, STEP_PIN_C, DIR_PIN_C);
+
+// Create MultiStepper instance for AccelStepper instances
 MultiStepper steppers;
 
 // Global variables
@@ -116,7 +123,7 @@ double angle_to_step = 3200 / 360;
 bool detected = 0;
 
 void setup() {
-  Serial.begin(115200);
+  Serial.begin(BAUD_RATE);
 
   // Initialize steppers
   steppers.addStepper(stepperA);

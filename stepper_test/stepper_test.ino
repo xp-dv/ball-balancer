@@ -3,13 +3,14 @@
 
 // Pin Assignment
 enum pins {
-  ENABLE_PIN = 2, // TMC2208 Enable (EN) Pin
-  STEP_PIN_A = 3, // Step-Signal Input A
-  DIR_PIN_A = 4,  // Direction-Signal Input A
-  STEP_PIN_2 = 5, // Step-Signal Input 2
-  DIR_PIN_2 = 6,  // Direction-Signal Input 2
-  STEP_PIN_3 = 7, // Step-Signal Input 3
-  DIR_PIN_3 = 8,  // Direction-Signal Input 3
+  // TMC2208 Stepper Motor Drivers
+  ENABLE_PIN = 2, // Enable (EN) Pin
+  STEP_PIN_A = 3, // Stepper A Step Signal (STEP)
+  DIR_PIN_A  = 4, // Stepper A Direction Signal (DIR)
+  STEP_PIN_B = 5, // Stepper B Step Signal (STEP)
+  DIR_PIN_B  = 6, // Stepper B Direction Signal (DIR)
+  STEP_PIN_C = 7, // Stepper C Step Signal (STEP)
+  DIR_PIN_C  = 8, // Stepper C Direction Signal (DIR)
 };
 
 // User Constants
@@ -18,12 +19,14 @@ enum pins {
 #define STEP_SIZE 25
 #define NUMBER_OF_STEPS 20
 
-// Generate stepper motor instances
-const int DRIVER_TYPE = 1;
-AccelStepper stepperA(DRIVER_TYPE, STEP_PIN_A, DIR_PIN_A);  // (driver type, STEP_PIN, DIR_PIN)
-AccelStepper stepperB(DRIVER_TYPE, STEP_PIN_2, DIR_PIN_2);  // (driver type, STEP_PIN, DIR_PIN)
-AccelStepper stepperC(DRIVER_TYPE, STEP_PIN_3, DIR_PIN_3);  // (driver type, STEP_PIN, DIR_PIN)
-// Generate MultiStepper instance
+// Create stepper motor instances
+const int DRIVER_TYPE = 1; // Normal
+// AccelStepper stepper_name(DRIVER_TYPE, STEP_PIN, DIR_PIN);
+AccelStepper stepperA(DRIVER_TYPE, STEP_PIN_A, DIR_PIN_A);
+AccelStepper stepperB(DRIVER_TYPE, STEP_PIN_B, DIR_PIN_B);
+AccelStepper stepperC(DRIVER_TYPE, STEP_PIN_C, DIR_PIN_C);
+
+// Create MultiStepper instance for AccelStepper instances
 MultiStepper steppers;
 
 // Stepper home position array
