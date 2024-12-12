@@ -137,7 +137,7 @@ void setup() {
   digitalWrite(ENABLE_PIN, LOW);
 
   // Go to home position
-  moveTo(HOME_HEIGHT, 0, 0);
+  move(HOME_HEIGHT, 0, 0);
   steppers.runSpeedToPosition();
 }
 
@@ -145,7 +145,7 @@ void loop() {
   PID(0, 0);
 }
 
-void moveTo(double h_z, double n_x, double n_y) {
+void move(double h_z, double n_x, double n_y) {
   if (detected) {
     for (int i = 0; i < 3; i++) {
       pos[i] = round((angle_origin - inv_kinematics.theta(i, h_z, n_x, n_y)) * angle_to_step);
@@ -204,6 +204,6 @@ void PID(double setpoint_X, double setpoint_Y) {
   }
   time_i = millis();
   while (millis() - time_i < 20) {
-    moveTo(4.25, -out[0], -out[1]);
+    move(4.25, -out[0], -out[1]);
   }
 }
